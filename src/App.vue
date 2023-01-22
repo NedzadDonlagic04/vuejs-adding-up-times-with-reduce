@@ -1,5 +1,32 @@
 <script setup>
+import { onMounted } from 'vue';
 
+onMounted(() => {
+    const timesLi = [...document.querySelectorAll('li')];
+
+    const seconds = timesLi
+                        .map(timeLi => timeLi.getAttribute('data-time'))
+                        .map(time => {
+                            const [mins, secs] = time.split(':').map(parseFloat);
+
+                            return mins * 60 + secs;
+                        });
+
+    let total = seconds.reduce( (previous, current) => previous + current);
+    console.log(`Total seconds: ${total}`);
+
+    const hours = Math.floor(total / 3600);
+    total = total % 3600;
+    
+    const minutes = Math.floor(total / 60);
+    total = total % 60;
+
+    const secondsLeft = total;
+
+    console.log(`Hours: ${hours}
+    Minutes: ${minutes},
+    Seconds: ${secondsLeft}`);
+});
 </script>
 
 <template>
@@ -175,7 +202,7 @@
     <li data-time="1:56">
       Video 57
     </li>
-    <li data-time="4:04">
+    <li data-time="4:06">
       Video 58
     </li>
   </ul>
